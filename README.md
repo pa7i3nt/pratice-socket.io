@@ -18,6 +18,8 @@ npm run serve
 
 ```
 cd server
+docker compose up -d
+
 npm install
 npm start
 ```
