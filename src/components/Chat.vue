@@ -50,7 +50,7 @@ export default {
   },
   created() {
     socket.on("connect", () => {
-      this.users.forEach(user => {
+      this.users.forEach((user) => {
         if (user.self) {
           user.connected = true;
         }
@@ -58,24 +58,27 @@ export default {
     });
 
     socket.on("disconnect", () => {
-      this.users.forEach(user => {
+      this.users.forEach((user) => {
         if (user.self) {
           user.connected = false;
         }
       });
     });
 
-    const initReactiveProperties = user => {
-      user.messages = [];
+    const initReactiveProperties = (user) => {
       user.hasNewMessages = false;
     };
 
-    socket.on("users", users => {
-      users.forEach(user => {
+    socket.on("users", (users) => {
+      users.forEach((user) => {
+        user.messages.forEach((message) => {
+          message.fromSelf = message.from === socket.userID;
+        });
         for (let i = 0; i < this.users.length; i++) {
           const existingUser = this.users[i];
           if (existingUser.userID === user.userID) {
             existingUser.connected = user.connected;
+            existingUser.messages = user.messages;
             return;
           }
         }
@@ -92,7 +95,7 @@ export default {
       });
     });
 
-    socket.on("user connected", user => {
+    socket.on("user connected", (user) => {
       for (let i = 0; i < this.users.length; i++) {
         const existingUser = this.users[i];
         if (existingUser.userID === user.userID) {
@@ -104,7 +107,7 @@ export default {
       this.users.push(user);
     });
 
-    socket.on("user disconnected", id => {
+    socket.on("user disconnected", (id) => {
       for (let i = 0; i < this.users.length; i++) {
         const user = this.users[i];
         if (user.userID === id) {
