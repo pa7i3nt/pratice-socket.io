@@ -133,6 +133,16 @@ export default {
         }
       }
     });
+
+    socket.on("display", (data) => {
+      const typingMessageDisplayElement =
+        document.getElementById("typing-message");
+      if (data.typing) {
+        typingMessageDisplayElement.textContent = `${data.user.username} is typing...`;
+      } else {
+        typingMessageDisplayElement.textContent = "";
+      }
+    });
   },
   destroyed() {
     socket.off("connect");

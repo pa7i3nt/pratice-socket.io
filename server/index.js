@@ -109,6 +109,10 @@ io.on("connection", async (socket) => {
     messageStore.saveMessage(message);
   });
 
+  socket.on("typing", ({ to, data }) => {
+    socket.to(to).emit("display", data);
+  });
+
   // notify users upon disconnection
   socket.on("disconnect", async () => {
     const matchingSockets = await io.in(socket.userID).allSockets();
