@@ -6,13 +6,15 @@
         :key="user.userID"
         :user="user"
         :selected="selectedUser === user"
-        @select="onSelectUser(user)" />
+        @select="onSelectUser(user)"
+      />
     </div>
     <message-panel
       v-if="selectedUser"
       :user="selectedUser"
       @input="onMessage"
-      class="right-panel" />
+      class="right-panel"
+    />
   </div>
 </template>
 
@@ -134,15 +136,15 @@ export default {
       }
     });
 
-    socket.on("display", (data) => {
-      const typingMessageDisplayElement =
-        document.getElementById("typing-message");
-      if (data.typing) {
-        typingMessageDisplayElement.textContent = `${data.user.username} is typing...`;
-      } else {
-        typingMessageDisplayElement.textContent = "";
-      }
-    });
+    // socket.on("display", (data) => {
+    //   const typingMessageDisplayElement =
+    //     document.getElementById("typing-message");
+    //   if (data.typing) {
+    //     typingMessageDisplayElement.textContent = `${data.user.username} is typing...`;
+    //   } else {
+    //     typingMessageDisplayElement.textContent = "";
+    //   }
+    // });
   },
   destroyed() {
     socket.off("connect");
